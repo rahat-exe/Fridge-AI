@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function SignIn(){
     const router = useRouter();
-    const { data, isPending } = authClient.getSession();
+    const { data, isPending } = authClient.useSession();
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
 

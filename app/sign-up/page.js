@@ -3,21 +3,24 @@
 import { useAuth } from "@/hooks/use-auth"
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SignUp(){
+  const {data, isPending} = authClient.useSession();
     const router = useRouter();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const {data, isPending} = authClient.getSession();
     
 
     
 
-    if (!isPending && data) {
-      router.push("/");
-    }
+    useEffect(()=>{
+      console.log(data, isPending)
+      if (!isPending && data) {
+        router.push("/");
+      }
+    },[data, isPending])
 
     const handleSubmit = async() => {
         const data = await authClient.signUp.email({
@@ -26,7 +29,7 @@ export default function SignUp(){
 
     }
     return (
-      <main>
+      <main className="max-w-4xl h-screen flex justify-center items-center">
         <form onSubmit={handleSubmit}>
           <div>
             <input
